@@ -15,7 +15,7 @@ K<-head(K[State==state,mult="first"],1)
 o<-unlist(K[1,1,with=F])
 		    }
 		    }
-print(o)
+return(o[[1]])
 }
 
 
