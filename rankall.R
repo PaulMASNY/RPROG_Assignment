@@ -1,3 +1,8 @@
+
+##########################################################################################
+########## mult=last is not working on the line 28 , I don't know why !
+##########################################################################################
+
 rankall <- function(outcome = "heart attack", num = "best") {
 # List of variables :
 m<-c(); n<-c();o<-c();	K<-c();L<-c(); st<-c(); out<-outcome; nb<-num; library(data.table);
@@ -13,15 +18,14 @@ H<-fread("~/R_Programming/Assignment3/outcome-of-care-measures.csv",select=c(2,7
 names(H)<-c("Hospital","State","heart_attack","heart_failure","pneumonia")
 K<- H[, heart_failure:=as.numeric(heart_failure)];K<- H[, heart_attack:=as.numeric(heart_attack)];K<- H[, pneumonia:=as.numeric(pneumonia)]
 st<-sort(unique(K$State))
-# Sets the key as the outcome variable :
+# Trims the NA's in function of the outcome selected and sets the key on the outcome variable :
 K<-na.omit(subset(K,select=c("Hospital","State",paste(out))));
-
 setkeyv(K,out)
 # Best selection :
 	if (nb =="best") { for(i in st) {L<-K[State== i,mult="first"];m<-L[L[1,3,with=F]];m<-m[order(Hospital)]
 			      m<-m[1,1:2,with=F]; n<-rbind(n,m) }}
 
-	else if (nb =="worst") { for(i in st) {L<-K[State== i,mult="last"]; m<-L[L[1,3,with=F]];m<-m[order(Hospital)]
+		else if (nb =="worst") { for(i in st) {L<-K[State== i,mult="last"]; m<-L[L[1,3,with=F]];m<-m[order(Hospital)]
 			      m<-m[1,1:2,with=F]; n<-rbind(n,m)}} 
 
 # Numerically determined selection :
